@@ -1,6 +1,6 @@
 # Infrastructure as Code
 
-![image](https://user-images.githubusercontent.com/110126036/188429117-139b84ed-5e70-427b-99c4-9170aa266df6.png)
+![image](https://user-images.githubusercontent.com/110126036/188834149-04a9c2c5-a689-43b9-b783-07adf51de508.png)
 
 Steps: 
 
