@@ -4,6 +4,8 @@
 
 ### Create vault key
 
+## Playbooks
+
 ### Create 2 instances using the following script (go to sec group and allow all traffic for now)
 
 ```
@@ -99,7 +101,12 @@
   hosts: aws-db
   become: true
   tasks:
-
+  - name: update and upgrade
+    become: yes
+    shell: |
+      sudo apt-get update
+      sudo apt-get upgrade -y
+    
   - name: create file
     file:
       path: /home/ubuntu/provision.sh
@@ -158,12 +165,15 @@
          port: 27017
          bindIp: 0.0.0.0
 
+  - name: restart mongodb
+    become: yes
+    shell: sudo systemctl restart mongod
 ```
 
 ### Provision App
+
 ```
 ---
-
 # add hosts or name of the host server
 - hosts: aws-app
 
@@ -176,6 +186,12 @@
 
 # add the instructions
   tasks:
+  - name: update + upgrade
+    become: yes
+    shell: |
+      sudo apt update
+      sudo apt upgrade -y
+  
   - name: Install Nginx
     apt: pkg=nginx state=present
 
@@ -217,9 +233,7 @@
 
     - name: check status
       shell : sudo systemctl status nodeapp.service
-ubuntu@ip-172-31-29-222:/etc/ansible/playbooks$ ls
-create_ec2.yml  launch_app.yml  provision_app.yml  provision_db.yml  reverse_proxy.yml
-ubuntu@ip-172-31-29-222:/etc/ansible/playbooks$ cat reverse_proxy.yml
+      
 ---
 - name: do reverse proxy
   hosts: aws-app
