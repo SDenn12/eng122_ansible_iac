@@ -101,12 +101,7 @@
   hosts: aws-db
   become: true
   tasks:
-  - name: update and upgrade
-    become: yes
-    shell: |
-      sudo apt-get update
-      sudo apt-get upgrade -y
-    
+
   - name: create file
     file:
       path: /home/ubuntu/provision.sh
@@ -138,6 +133,19 @@
     become: yes
     shell: ./provision.sh
 
+  - name: delete mongod.conf
+    become: yes
+    file:
+      path: /etc/mongod.conf
+      state: absent
+
+
+  - name: touch mongod.conf
+    become: yes
+    file:
+      path: /etc/mongod.conf
+      state: touch
+
   - name: sort mongod.conf file
     become: yes
     blockinfile:
@@ -166,8 +174,8 @@
          bindIp: 0.0.0.0
 
   - name: restart mongodb
-    become: yes
-    shell: sudo systemctl restart mongod
+    shell: |
+      sudo systemctl restart mongod
 ```
 
 ### Provision App
