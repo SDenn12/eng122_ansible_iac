@@ -213,31 +213,6 @@
     shell: |
       cd /home/ubuntu/app/app
       npm install
-      
----
-- name: launch the node app
-  hosts: aws-app
-  become: true
-  tasks:
-    - name: make shell executable
-      shell: chmod +x /usr/bin/nodeapp.sh
-
-    - name: enable new service
-      shell: sudo systemctl daemon-reload
-
-    - name: enable nodeapp service
-      shell: sudo systemctl enable nodeapp.service
-
-    - name: start nodeapp service
-      shell: sudo systemctl start nodeapp.service
-
-    - name: check status
-      shell : sudo systemctl status nodeapp.service
-      
----
-- name: do reverse proxy
-  hosts: aws-app
-  tasks:
 
   - name: Disable NGINX Default Virtual Host
     become: yes
